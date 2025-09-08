@@ -11,6 +11,18 @@ export class NavigationManager {
   }
 
   init() {
+    // 페이지 로드 시 스크롤을 맨 위로 강제 이동
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 추가로 DOM이 완전히 로드된 후에도 스크롤 위치 확인
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+
     this.setupMobileMenu();
     this.bindEvents();
     this.setupScrollEffects();
@@ -140,6 +152,17 @@ export class NavigationManager {
   updateActiveNav() {
     const sections = document.querySelectorAll("section[id]");
     const scrollPos = window.scrollY + 100;
+
+    // 페이지 상단에 있을 때는 첫 번째 섹션을 활성화
+    if (scrollPos < 200) {
+      this.navLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#club") {
+          link.classList.add("active");
+        }
+      });
+      return;
+    }
 
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
