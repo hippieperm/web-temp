@@ -46,6 +46,15 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-icon {
