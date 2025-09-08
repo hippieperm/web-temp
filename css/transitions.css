@@ -231,11 +231,301 @@ a:focus {
   }
 }
 
+/* 커스텀 커서 - 기본 커서와 함께 표시 */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0.8;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #4caf50;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.1s ease;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+.cursor-outline {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+}
+
+.custom-cursor.hover .cursor-dot {
+  transform: translate(-50%, -50%) scale(1.3);
+  background: #ff6b6b;
+  box-shadow: 0 0 6px rgba(255, 107, 107, 0.6);
+}
+
+.custom-cursor.hover .cursor-outline {
+  transform: translate(-50%, -50%) scale(1.3);
+  border-color: rgba(255, 107, 107, 0.6);
+}
+
+/* 물결 효과 애니메이션 */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* 떠다니는 요소 애니메이션 */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(240deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+  }
+}
+
+.floating-element {
+  transition: all 0.3s ease;
+}
+
+/* 스크롤 상태 */
+body.is-scrolling {
+  cursor: grabbing;
+}
+
+body.is-scrolling * {
+  pointer-events: none;
+}
+
+/* 자석 효과를 위한 전환 */
+.service-item,
+.course-card,
+.facility-card,
+button,
+.btn {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3D 틸트 효과 */
+.course-card,
+.facility-card {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+/* 마우스 호버 시 커서 효과 - 기본 커서 유지 */
+.service-item:hover,
+.course-card:hover,
+.facility-card:hover,
+button:hover,
+.btn:hover {
+  cursor: pointer;
+}
+
+/* 글리터 효과 */
+@keyframes glitter {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.glitter {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: glitter 2s infinite;
+}
+
+/* 파티클 효과 */
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #4caf50;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-float 3s infinite linear;
+}
+
+/* 텍스트 타이핑 효과 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #4caf50;
+  }
+}
+
+.typing-text {
+  overflow: hidden;
+  border-right: 2px solid #4caf50;
+  white-space: nowrap;
+  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* 모핑 애니메이션 */
+@keyframes morph {
+  0% {
+    border-radius: 50%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 20%;
+    transform: rotate(180deg);
+  }
+  100% {
+    border-radius: 50%;
+    transform: rotate(360deg);
+  }
+}
+
+.morphing-shape {
+  animation: morph 4s infinite ease-in-out;
+}
+
+/* 웨이브 효과 */
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.wave-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.wave-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: wave 2s infinite;
+}
+
+/* 스크롤 진행 표시기 */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  z-index: 10000;
+  transition: width 0.1s ease;
+}
+
+/* 마우스 트레일 효과 */
+.mouse-trail {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(
+    circle,
+    rgba(76, 175, 80, 0.8) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  animation: trail-fade 0.5s ease-out forwards;
+}
+
+@keyframes trail-fade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
 /* Responsive animations */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .custom-cursor {
+    display: none;
+  }
+
+  .floating-element {
+    display: none;
   }
 }
