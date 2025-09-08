@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>예약 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        opacity: 0.9;
+        margin-bottom: 2rem;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .breadcrumb a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .breadcrumb a:hover {
+        opacity: 0.7;
+      }
+
+      .booking-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .booking-tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+        background: white;
+        border-radius: 15px;
+        padding: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .tab-button {
+        flex: 1;
+        padding: 15px 30px;
+        border: none;
+        background: transparent;
+        color: #666;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .tab-button.active {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .booking-form {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #00b894;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 184, 148, 0.3);
+      }
+
+      .calendar-section {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .calendar-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .calendar-header {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .calendar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .nav-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .nav-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .calendar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background: #e1e5e9;
+      }
+
+      .calendar-day {
+        background: white;
+        padding: 20px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .calendar-day:hover {
+        background: #f0f0f0;
+      }
+
+      .calendar-day.available {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .calendar-day.available:hover {
+        background: #c3e6cb;
+      }
+
+      .calendar-day.unavailable {
+        background: #f8d7da;
+        color: #721c24;
+        cursor: not-allowed;
+      }
+
+      .calendar-day.selected {
+        background: #00b894;
+        color: white;
+      }
+
+      .day-number {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .day-status {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+
+      .time-slots {
+        padding: 30px;
+      }
+
+      .time-slots h3 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .slots-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+      }
+
+      .time-slot {
+        padding: 15px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .time-slot:hover {
+        border-color: #00b894;
+        background: #f0fdfa;
+      }
+
+      .time-slot.selected {
+        border-color: #00b894;
+        background: #00b894;
+        color: white;
+      }
+
+      .time-slot.unavailable {
+        background: #f8d7da;
+        color: #721c24;
+        cursor: not-allowed;
+      }
+
+      .pricing-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .pricing-card {
+        background: white;
+        border: 2px solid #e1e5e9;
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: #00b894;
+        box-shadow: 0 20px 50px rgba(0, 184, 148, 0.2);
+      }
+
+      .pricing-card.featured {
+        border-color: #00b894;
+        transform: scale(1.05);
+      }
+
+      .pricing-card.featured::before {
+        content: "인기";
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: #00b894;
+        color: white;
+        padding: 5px 40px;
+        font-size: 12px;
+        font-weight: 600;
+        transform: rotate(45deg);
+      }
+
+      .pricing-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .pricing-price {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #00b894;
+        margin-bottom: 20px;
+      }
+
+      .pricing-price span {
+        font-size: 1rem;
+        color: #666;
+      }
+
+      .pricing-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 30px;
+      }
+
+      .pricing-features li {
+        padding: 8px 0;
+        color: #666;
+      }
+
+      .pricing-features li::before {
+        content: "✓";
+        color: #00b894;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .btn-pricing {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-pricing:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 184, 148, 0.3);
+      }
+
+      .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        text-align: center;
+      }
+
+      .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #00b894;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: #00b894;
+      }
+
+      @media (max-width: 768px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .pricing-card.featured {
+          transform: none;
+        }
+
+        .calendar-grid {
+          font-size: 0.8rem;
+        }
+
+        .calendar-day {
+          padding: 10px 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="auth-links">
+            <a href="#" class="login-btn">로그인</a>
+            <span>|</span>
+            <a href="#" class="signup-btn">회원가입</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-circle">
+                <span class="logo-text-inner">GC</span>
+              </div>
+            </div>
+            <div class="logo-text">
+              <div>고성 컨트리클럽</div>
+              <div>GOSUNG CC</div>
+            </div>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="club.html">클럽소개</a></li>
+            <li><a href="reservation.html">이용안내</a></li>
+            <li><a href="course.html">코스소개</a></li>
+            <li><a href="event.html" class="active">예약</a></li>
+            <li><a href="facilities.html">부대시설</a></li>
+            <li><a href="news.html">정보마당</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">예약하기</h1>
+            <p class="page-subtitle">
+              고성 컨트리클럽에서 특별한 골프 경험을 예약하세요
+            </p>
+            <div class="breadcrumb">
+              <a href="index.html">홈</a>
+              <span>></span>
+              <span>예약</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="booking-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            골프 예약
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 3rem;
+            "
+          >
+            간편한 온라인 예약 시스템으로 골프를 예약하세요
+          </p>
+
+          <div class="booking-tabs">
+            <button class="tab-button active" data-tab="golf">골프 예약</button>
+            <button class="tab-button" data-tab="facilities">시설 예약</button>
+          </div>
+
+          <div id="golf" class="tab-content active">
+            <div class="booking-form">
+              <h3 style="margin-bottom: 30px; color: #00b894">
+                골프 예약 신청
+              </h3>
+              <form id="golfBookingForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" required />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="date">희망 날짜</label>
+                    <input type="date" id="date" name="date" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="time">희망 시간</label>
+                    <select id="time" name="time" required>
+                      <option value="">시간 선택</option>
+                      <option value="06:00">06:00</option>
+                      <option value="06:30">06:30</option>
+                      <option value="07:00">07:00</option>
+                      <option value="07:30">07:30</option>
+                      <option value="08:00">08:00</option>
+                      <option value="08:30">08:30</option>
+                      <option value="09:00">09:00</option>
+                      <option value="09:30">09:30</option>
+                      <option value="10:00">10:00</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="12:30">12:30</option>
+                      <option value="13:00">13:00</option>
+                      <option value="13:30">13:30</option>
+                      <option value="14:00">14:00</option>
+                      <option value="14:30">14:30</option>
+                      <option value="15:00">15:00</option>
+                      <option value="15:30">15:30</option>
+                      <option value="16:00">16:00</option>
+                      <option value="16:30">16:30</option>
+                      <option value="17:00">17:00</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="players">플레이어 수</label>
+                    <select id="players" name="players" required>
+                      <option value="">인원 선택</option>
+                      <option value="1">1명</option>
+                      <option value="2">2명</option>
+                      <option value="3">3명</option>
+                      <option value="4">4명</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="package">패키지</label>
+                    <select id="package" name="package" required>
+                      <option value="">패키지 선택</option>
+                      <option value="basic">기본 패키지</option>
+                      <option value="premium">프리미엄 패키지</option>
+                      <option value="vip">VIP 패키지</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="message">특별 요청사항</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    placeholder="특별한 요청사항이 있으시면 적어주세요."
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                  골프 예약 신청하기
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div id="facilities" class="tab-content">
+            <div class="booking-form">
+              <h3 style="margin-bottom: 30px; color: #00b894">
+                시설 예약 신청
+              </h3>
+              <form id="facilityBookingForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="facilityName">이름</label>
+                    <input type="text" id="facilityName" name="name" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="facilityPhone">연락처</label>
+                    <input
+                      type="tel"
+                      id="facilityPhone"
+                      name="phone"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="facility">시설 선택</label>
+                    <select id="facility" name="facility" required>
+                      <option value="">시설 선택</option>
+                      <option value="clubhouse">클럽하우스</option>
+                      <option value="spa">스파 & 웰니스</option>
+                      <option value="restaurant">레스토랑</option>
+                      <option value="meeting">회의실</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="facilityDate">희망 날짜</label>
+                    <input type="date" id="facilityDate" name="date" required />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="facilityTime">희망 시간</label>
+                    <select id="facilityTime" name="time" required>
+                      <option value="">시간 선택</option>
+                      <option value="09:00">09:00</option>
+                      <option value="10:00">10:00</option>
+                      <option value="11:00">11:00</option>
+                      <option value="12:00">12:00</option>
+                      <option value="13:00">13:00</option>
+                      <option value="14:00">14:00</option>
+                      <option value="15:00">15:00</option>
+                      <option value="16:00">16:00</option>
+                      <option value="17:00">17:00</option>
+                      <option value="18:00">18:00</option>
+                      <option value="19:00">19:00</option>
+                      <option value="20:00">20:00</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="duration">이용 시간</label>
+                    <select id="duration" name="duration" required>
+                      <option value="">시간 선택</option>
+                      <option value="1">1시간</option>
+                      <option value="2">2시간</option>
+                      <option value="3">3시간</option>
+                      <option value="4">4시간</option>
+                      <option value="5">5시간</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="facilityMessage">특별 요청사항</label>
+                  <textarea
+                    id="facilityMessage"
+                    name="message"
+                    rows="4"
+                    placeholder="특별한 요청사항이 있으시면 적어주세요."
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                  시설 예약 신청하기
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="calendar-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            예약 가능 일정
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 3rem;
+            "
+          >
+            실시간 예약 가능 일정을 확인하세요
+          </p>
+
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <div class="calendar-nav">
+                <button class="nav-button" id="prevMonth">‹</button>
+                <h3 class="calendar-title" id="calendarTitle">2024년 1월</h3>
+                <button class="nav-button" id="nextMonth">›</button>
+              </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+              <!-- 달력이 JavaScript로 생성됩니다 -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pricing-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            요금 안내
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            다양한 패키지로 선택하세요
+          </p>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <h3 class="pricing-title">기본 패키지</h3>
+              <div class="pricing-price">80,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>카트 렌탈</li>
+                <li>기본 장비 대여</li>
+                <li>클럽하우스 이용</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+
+            <div class="pricing-card featured">
+              <h3 class="pricing-title">프리미엄 패키지</h3>
+              <div class="pricing-price">120,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>프리미엄 카트</li>
+                <li>고급 장비 대여</li>
+                <li>점심 식사 포함</li>
+                <li>프로 레슨 30분</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+
+            <div class="pricing-card">
+              <h3 class="pricing-title">VIP 패키지</h3>
+              <div class="pricing-price">200,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>전용 카트</li>
+                <li>프리미엄 장비</li>
+                <li>고급 식사</li>
+                <li>개인 프로 레슨</li>
+                <li>전용 라운지</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
+            <h2>지금 바로 예약하세요</h2>
+            <p>고성 컨트리클럽에서 특별한 골프 경험을 만나보세요</p>
+            <div class="cta-buttons">
+              <a href="reservation.html" class="btn-primary">이용안내</a>
+              <a href="course.html" class="btn-secondary">코스 둘러보기</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      // 탭 기능
+      document.querySelectorAll(".tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const tabId = button.getAttribute("data-tab");
+
+          // 모든 탭 버튼과 콘텐츠 비활성화
+          document
+            .querySelectorAll(".tab-button")
+            .forEach((btn) => btn.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((content) => content.classList.remove("active"));
+
+          // 선택된 탭 활성화
+          button.classList.add("active");
+          document.getElementById(tabId).classList.add("active");
+        });
+      });
+
+      // 예약 폼 제출
+      document
+        .getElementById("golfBookingForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("골프 예약이 신청되었습니다. 확인 후 연락드리겠습니다.");
+        });
+
+      document
+        .getElementById("facilityBookingForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("시설 예약이 신청되었습니다. 확인 후 연락드리겠습니다.");
+        });
+
+      // 달력 생성
+      function generateCalendar(year, month) {
+        const calendarGrid = document.getElementById("calendarGrid");
+        const calendarTitle = document.getElementById("calendarTitle");
+
+        const date = new Date(year, month);
+        const firstDay = date.getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        calendarTitle.textContent = `${year}년 ${month + 1}월`;
+
+        // 요일 헤더
+        const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+        calendarGrid.innerHTML = "";
+
+        dayNames.forEach((day) => {
+          const dayHeader = document.createElement("div");
+          dayHeader.className = "calendar-day";
+          dayHeader.style.background = "#f8f9fa";
+          dayHeader.style.fontWeight = "bold";
+          dayHeader.textContent = day;
+          calendarGrid.appendChild(dayHeader);
+        });
+
+        // 빈 날짜
+        for (let i = 0; i < firstDay; i++) {
+          const emptyDay = document.createElement("div");
+          emptyDay.className = "calendar-day";
+          emptyDay.style.visibility = "hidden";
+          calendarGrid.appendChild(emptyDay);
+        }
+
+        // 실제 날짜
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayElement = document.createElement("div");
+          dayElement.className = "calendar-day";
+          dayElement.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="day-status">예약가능</div>
+                `;
+
+          // 랜덤하게 예약 가능/불가능 설정
+          if (Math.random() > 0.3) {
+            dayElement.classList.add("available");
+          } else {
+            dayElement.classList.add("unavailable");
+            dayElement.querySelector(".day-status").textContent = "예약불가";
+          }
+
+          dayElement.addEventListener("click", () => {
+            if (dayElement.classList.contains("available")) {
+              document
+                .querySelectorAll(".calendar-day")
+                .forEach((d) => d.classList.remove("selected"));
+              dayElement.classList.add("selected");
+            }
+          });
+
+          calendarGrid.appendChild(dayElement);
+        }
+      }
+
+      // 달력 네비게이션
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+      let currentMonth = currentDate.getMonth();
+
+      generateCalendar(currentYear, currentMonth);
+
+      document.getElementById("prevMonth").addEventListener("click", () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        generateCalendar(currentYear, currentMonth);
+      });
+
+      document.getElementById("nextMonth").addEventListener("click", () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        generateCalendar(currentYear, currentMonth);
+      });
+
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(
+          ".pricing-card, .booking-form, .calendar-container"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>
