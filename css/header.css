@@ -100,12 +100,35 @@
   color: #333;
   font-weight: 500;
   font-size: 16px;
-  padding: 10px 0;
-  transition: color 0.3s ease;
+  padding: 10px 15px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .nav-menu a:hover {
   color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+  transform: translateY(-2px);
+}
+
+.nav-menu a.active {
+  color: #4caf50;
+  background: rgba(76, 175, 80, 0.15);
+  font-weight: 600;
+}
+
+.nav-menu a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: #4caf50;
+  border-radius: 1px;
 }
 
 /* Mobile Menu */
