@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .signup-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        position: relative;
+      }
+
+      .signup-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.1;
+        z-index: 1;
+      }
+
+      .signup-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        width: 100%;
+        max-width: 1000px;
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 700px;
+      }
+
+      .signup-image {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 40px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .signup-image::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=700&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .signup-image-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .signup-image h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .signup-image p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .signup-benefits {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+      }
+
+      .signup-benefits li {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .signup-benefits li::before {
+        content: "🎯";
+        font-size: 18px;
+      }
+
+      .signup-form-section {
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 700px;
+        overflow-y: auto;
+      }
+
+      .signup-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .signup-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .signup-header p {
+        color: #666;
+        font-size: 1rem;
+      }
+
+      .form-step {
+        display: none;
+      }
+
+      .form-step.active {
+        display: block;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e1e5e9;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+      }
+
+      .step.active {
+        background: #ff6b6b;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      .step-line {
+        width: 40px;
+        height: 2px;
+        background: #e1e5e9;
+        margin-top: 19px;
+        transition: all 0.3s ease;
+      }
+
+      .step-line.completed {
+        background: #28a745;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+        font-size: 0.9rem;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #ff6b6b;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+      }
+
+      .form-group input::placeholder {
+        color: #999;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .password-strength {
+        margin-top: 5px;
+        font-size: 0.8rem;
+      }
+
+      .strength-bar {
+        height: 4px;
+        background: #e1e5e9;
+        border-radius: 2px;
+        margin-top: 5px;
+        overflow: hidden;
+      }
+
+      .strength-fill {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+      }
+
+      .strength-weak .strength-fill {
+        width: 25%;
+        background: #dc3545;
+      }
+
+      .strength-medium .strength-fill {
+        width: 50%;
+        background: #ffc107;
+      }
+
+      .strength-strong .strength-fill {
+        width: 75%;
+        background: #17a2b8;
+      }
+
+      .strength-very-strong .strength-fill {
+        width: 100%;
+        background: #28a745;
+      }
+
+      .terms-checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .terms-checkbox input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #ff6b6b;
+        margin-top: 2px;
+      }
+
+      .terms-checkbox label {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.4;
+        cursor: pointer;
+      }
+
+      .terms-checkbox a {
+        color: #ff6b6b;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .terms-checkbox a:hover {
+        text-decoration: underline;
+      }
+
+      .form-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f8f9fa;
+        color: #666;
+        border: 2px solid #e1e5e9;
+      }
+
+      .btn-secondary:hover {
+        background: #e9ecef;
+      }
+
+      .btn-primary:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .back-to-home {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 3;
+      }
+
+      .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: white;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .back-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .login-link a {
+        color: #ff6b6b;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .login-link a:hover {
+        color: #ee5a24;
+      }
+
+      .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .floating-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .floating-circle:nth-child(1) {
+        width: 100px;
+        height: 100px;
+        top: 15%;
+        left: 5%;
+        animation-delay: 0s;
+      }
+
+      .floating-circle:nth-child(2) {
+        width: 150px;
+        height: 150px;
+        top: 70%;
+        right: 10%;
+        animation-delay: 3s;
+      }
+
+      .floating-circle:nth-child(3) {
+        width: 80px;
+        height: 80px;
+        bottom: 15%;
+        left: 15%;
+        animation-delay: 6s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-30px) rotate(180deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .signup-card {
+          grid-template-columns: 1fr;
+          max-width: 400px;
+        }
+
+        .signup-image {
+          padding: 40px 30px;
+        }
+
+        .signup-image h1 {
+          font-size: 2rem;
+        }
+
+        .signup-form-section {
+          padding: 40px 30px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .form-buttons {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="floating-elements">
+      <div class="floating-circle"></div>
+      <div class="floating-circle"></div>
+      <div class="floating-circle"></div>
+    </div>
+
+    <div class="back-to-home">
+      <a href="gosung.html" class="back-button">
+        <span>←</span>
+        <span>홈으로</span>
+      </a>
+    </div>
+
+    <div class="signup-container">
+      <div class="signup-card">
+        <div class="signup-image">
+          <div class="signup-image-content">
+            <h1>회원가입</h1>
+            <p>고성 컨트리클럽의 특별한 혜택을 만나보세요</p>
+            <ul class="signup-benefits">
+              <li>신규 회원 50% 할인</li>
+              <li>무료 프로 레슨 1회</li>
+              <li>VIP 라운지 이용권</li>
+              <li>생일 특별 혜택</li>
+              <li>우선 예약 서비스</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="signup-form-section">
+          <div class="signup-header">
+            <h2>회원가입</h2>
+            <p>간단한 정보 입력으로 시작하세요</p>
+          </div>
+
+          <div class="step-indicator">
+            <div class="step active" data-step="1">1</div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2">2</div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3">3</div>
+          </div>
+
+          <form id="signupForm">
+            <!-- 1단계: 기본 정보 -->
+            <div class="form-step active" data-step="1">
+              <div class="form-group">
+                <label for="name">이름 *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="이름을 입력하세요"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">이메일 *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="이메일을 입력하세요"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">휴대폰 번호 *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="010-1234-5678"
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="birth">생년월일</label>
+                  <input type="date" id="birth" name="birth" />
+                </div>
+                <div class="form-group">
+                  <label for="gender">성별</label>
+                  <select id="gender" name="gender">
+                    <option value="">선택하세요</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2단계: 계정 정보 -->
+            <div class="form-step" data-step="2">
+              <div class="form-group">
+                <label for="username">아이디 *</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="아이디를 입력하세요"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="password">비밀번호 *</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="비밀번호를 입력하세요"
+                  required
+                />
+                <div class="password-strength" id="passwordStrength">
+                  비밀번호 강도를 확인하세요
+                </div>
+                <div class="strength-bar">
+                  <div class="strength-fill"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">비밀번호 확인 *</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="비밀번호를 다시 입력하세요"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="referral">추천인 코드</label>
+                <input
+                  type="text"
+                  id="referral"
+                  name="referral"
+                  placeholder="추천인 코드가 있다면 입력하세요"
+                />
+              </div>
+            </div>
+
+            <!-- 3단계: 약관 동의 -->
+            <div class="form-step" data-step="3">
+              <div class="terms-checkbox">
+                <input type="checkbox" id="terms" name="terms" required />
+                <label for="terms">
+                  <a href="#" onclick="showTerms('terms')">이용약관</a>에
+                  동의합니다 *
+                </label>
+              </div>
+
+              <div class="terms-checkbox">
+                <input type="checkbox" id="privacy" name="privacy" required />
+                <label for="privacy">
+                  <a href="#" onclick="showTerms('privacy')">개인정보처리방침</a
+                  >에 동의합니다 *
+                </label>
+              </div>
+
+              <div class="terms-checkbox">
+                <input type="checkbox" id="marketing" name="marketing" />
+                <label for="marketing">
+                  마케팅 정보 수신에 동의합니다 (선택)
+                </label>
+              </div>
+
+              <div class="terms-checkbox">
+                <input type="checkbox" id="sms" name="sms" />
+                <label for="sms"> SMS 알림 수신에 동의합니다 (선택) </label>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button
+                type="button"
+                class="btn-secondary"
+                id="prevBtn"
+                style="display: none"
+              >
+                이전
+              </button>
+              <button type="button" class="btn-primary" id="nextBtn">
+                다음
+              </button>
+              <button
+                type="submit"
+                class="btn-primary"
+                id="submitBtn"
+                style="display: none"
+              >
+                회원가입
+              </button>
+            </div>
+          </form>
+
+          <div class="login-link">
+            이미 회원이신가요?
+            <a href="login.html">로그인하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      let currentStep = 1;
+      const totalSteps = 3;
+
+      // 단계별 네비게이션
+      function updateStepIndicator() {
+        document.querySelectorAll(".step").forEach((step, index) => {
+          step.classList.remove("active", "completed");
+          if (index + 1 < currentStep) {
+            step.classList.add("completed");
+          } else if (index + 1 === currentStep) {
+            step.classList.add("active");
+          }
+        });
+
+        document.querySelectorAll(".step-line").forEach((line, index) => {
+          line.classList.remove("completed");
+          if (index + 1 < currentStep) {
+            line.classList.add("completed");
+          }
+        });
+      }
+
+      function showStep(step) {
+        document.querySelectorAll(".form-step").forEach((stepEl) => {
+          stepEl.classList.remove("active");
+        });
+        document.querySelector(`[data-step="${step}"]`).classList.add("active");
+
+        updateStepIndicator();
+
+        // 버튼 상태 업데이트
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const submitBtn = document.getElementById("submitBtn");
+
+        prevBtn.style.display = step > 1 ? "block" : "none";
+        nextBtn.style.display = step < totalSteps ? "block" : "none";
+        submitBtn.style.display = step === totalSteps ? "block" : "none";
+      }
+
+      // 다음 단계
+      document.getElementById("nextBtn").addEventListener("click", function () {
+        if (validateCurrentStep()) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+
+      // 이전 단계
+      document.getElementById("prevBtn").addEventListener("click", function () {
+        currentStep--;
+        showStep(currentStep);
+      });
+
+      // 현재 단계 유효성 검사
+      function validateCurrentStep() {
+        const currentStepEl = document.querySelector(
+          `[data-step="${currentStep}"]`
+        );
+        const requiredInputs =
+          currentStepEl.querySelectorAll("input[required]");
+
+        for (let input of requiredInputs) {
+          if (!input.value.trim()) {
+            alert("필수 항목을 모두 입력해주세요.");
+            input.focus();
+            return false;
+          }
+        }
+
+        // 비밀번호 확인
+        if (currentStep === 2) {
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+          }
+        }
+
+        // 약관 동의 확인
+        if (currentStep === 3) {
+          const terms = document.getElementById("terms").checked;
+          const privacy = document.getElementById("privacy").checked;
+
+          if (!terms || !privacy) {
+            alert("필수 약관에 동의해주세요.");
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      // 비밀번호 강도 체크
+      document
+        .getElementById("password")
+        .addEventListener("input", function () {
+          const password = this.value;
+          const strengthEl = document.getElementById("passwordStrength");
+          const strengthBar = this.parentElement.querySelector(".strength-bar");
+
+          let strength = 0;
+          let strengthText = "";
+
+          if (password.length >= 8) strength++;
+          if (/[a-z]/.test(password)) strength++;
+          if (/[A-Z]/.test(password)) strength++;
+          if (/[0-9]/.test(password)) strength++;
+          if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+          strengthBar.className = "strength-bar";
+
+          if (password.length === 0) {
+            strengthText = "비밀번호를 입력하세요";
+          } else if (strength < 2) {
+            strengthText = "약함";
+            strengthBar.classList.add("strength-weak");
+          } else if (strength < 3) {
+            strengthText = "보통";
+            strengthBar.classList.add("strength-medium");
+          } else if (strength < 4) {
+            strengthText = "강함";
+            strengthBar.classList.add("strength-strong");
+          } else {
+            strengthText = "매우 강함";
+            strengthBar.classList.add("strength-very-strong");
+          }
+
+          strengthEl.textContent = strengthText;
+        });
+
+      // 회원가입 폼 제출
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (validateCurrentStep()) {
+            alert("회원가입이 완료되었습니다! 환영합니다.");
+
+            // 회원가입 성공 시 로그인 페이지로 이동
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 1000);
+          }
+        });
+
+      // 약관 보기
+      function showTerms(type) {
+        const terms = {
+          terms: "이용약관 내용이 여기에 표시됩니다...",
+          privacy: "개인정보처리방침 내용이 여기에 표시됩니다...",
+        };
+
+        alert(terms[type]);
+      }
+
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const signupCard = document.querySelector(".signup-card");
+        signupCard.style.opacity = "0";
+        signupCard.style.transform = "translateY(50px)";
+
+        setTimeout(() => {
+          signupCard.style.transition = "all 0.8s ease";
+          signupCard.style.opacity = "1";
+          signupCard.style.transform = "translateY(0)";
+        }, 100);
+      });
+
+      // 입력 필드 포커스 효과
+      document.querySelectorAll("input, select").forEach((input) => {
+        input.addEventListener("focus", function () {
+          this.parentElement.style.transform = "scale(1.02)";
+        });
+
+        input.addEventListener("blur", function () {
+          this.parentElement.style.transform = "scale(1)";
+        });
+      });
+    </script>
+  </body>
+</html>
