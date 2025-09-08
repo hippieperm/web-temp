@@ -84,9 +84,11 @@ export class NavigationManager {
       if (scrollTop > 100) {
         this.header.style.background = "rgba(255, 255, 255, 0.95)";
         this.header.style.backdropFilter = "blur(10px)";
+        this.header.style.boxShadow = "0 2px 20px rgba(0,0,0,0.1)";
       } else {
         this.header.style.background = "white";
         this.header.style.backdropFilter = "none";
+        this.header.style.boxShadow = "none";
       }
 
       // Parallax effect for hero section
@@ -94,6 +96,9 @@ export class NavigationManager {
       if (hero) {
         hero.style.transform = `translateY(${scrollTop * 0.3}px)`;
       }
+
+      // Update active navigation
+      this.updateActiveNav();
 
       this.lastScrollTop = scrollTop;
       ticking = false;
