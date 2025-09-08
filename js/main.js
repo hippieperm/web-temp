@@ -3,6 +3,7 @@ import { HeroSlider } from "./hero.js";
 import { ModalManager } from "./modals.js";
 import { AnimationManager } from "./animations.js";
 import { NavigationManager } from "./navigation.js";
+import { TransitionManager } from "./transitions.js";
 import { utils } from "./utils.js";
 
 class GosungApp {
@@ -10,6 +11,7 @@ class GosungApp {
     this.modalManager = new ModalManager();
     this.animationManager = new AnimationManager();
     this.navigationManager = new NavigationManager();
+    this.transitionManager = new TransitionManager();
     this.heroSlider = null;
 
     this.init();
@@ -24,7 +26,7 @@ class GosungApp {
     }
   }
 
-  setupApp() {
+  async setupApp() {
     this.initializeHeroSlider();
     this.bindServiceEvents();
     this.bindCourseEvents();
@@ -32,6 +34,10 @@ class GosungApp {
     this.bindNoticeEvents();
     this.bindAuthEvents();
     this.setupRippleEffects();
+    this.enhanceInteractions();
+
+    // Animate page load
+    await this.transitionManager.animatePageLoad();
   }
 
   initializeHeroSlider() {
@@ -133,6 +139,54 @@ class GosungApp {
     });
   }
 
+  enhanceInteractions() {
+    // Add enhanced click feedback to all interactive elements
+    const interactiveElements = document.querySelectorAll(
+      ".service-item, .course-card, .facility-card, .notice-item, .nav-menu a"
+    );
+
+    interactiveElements.forEach((element) => {
+      this.transitionManager.addClickFeedback(element);
+    });
+
+    // Add pulse animation to important elements
+    const importantElements = document.querySelectorAll(
+      ".logo, .hero .main-title h1"
+    );
+
+    importantElements.forEach((element) => {
+      element.classList.add("pulse");
+    });
+
+    // Enhanced navigation with transitions
+    this.enhanceNavigation();
+  }
+
+  enhanceNavigation() {
+    const navLinks = document.querySelectorAll(".nav-menu a");
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const targetId = link.getAttribute("href");
+        if (targetId.startsWith("#")) {
+          const targetSection = document.querySelector(targetId);
+          if (targetSection) {
+            // Show transition
+            await this.transitionManager.showTransition(300);
+
+            // Scroll to section
+            this.navigationManager.scrollToSection(targetSection);
+
+            // Show transition again
+            await this.transitionManager.showTransition(300);
+          }
+        }
+      });
+    });
+  }
+
   // Public API methods
   showModal(type, data) {
     this.modalManager.showModal(type, data);
@@ -149,6 +203,7 @@ class GosungApp {
     }
     this.animationManager.destroy();
     this.navigationManager.destroy();
+    this.transitionManager.destroy();
   }
 }
 
