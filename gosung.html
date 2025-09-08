@@ -18,6 +18,19 @@
     <link rel="stylesheet" href="css/footer.css" />
     <link rel="stylesheet" href="css/modals.css" />
     <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      /* 페이지 로드 시 스크롤 위치 강제 초기화 */
+      html,
+      body {
+        scroll-behavior: auto !important;
+        scroll-padding-top: 0 !important;
+      }
+
+      /* 페이지 로드 시 스크롤 위치를 맨 위로 고정 */
+      body {
+        scroll-snap-type: none !important;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -46,12 +59,16 @@
           </div>
 
           <ul class="nav-menu">
-            <li><a href="#club">클럽소개</a></li>
-            <li><a href="#reservation">이용안내</a></li>
-            <li><a href="#course">코스소개</a></li>
-            <li><a href="#event">예약</a></li>
-            <li><a href="#news">부대시설</a></li>
-            <li><a href="#inquiry">정보마당</a></li>
+            <li><a href="club.html" class="mouse-nav-effect">클럽소개</a></li>
+            <li>
+              <a href="reservation.html" class="mouse-nav-effect">이용안내</a>
+            </li>
+            <li><a href="course.html" class="mouse-nav-effect">코스소개</a></li>
+            <li><a href="event.html" class="mouse-nav-effect">예약</a></li>
+            <li>
+              <a href="facilities.html" class="mouse-nav-effect">부대시설</a>
+            </li>
+            <li><a href="news.html" class="mouse-nav-effect">정보마당</a></li>
           </ul>
         </div>
       </nav>
@@ -136,7 +153,11 @@
       <section class="services">
         <div class="container">
           <div class="service-grid">
-            <div class="service-item guide starlight" data-section="guide">
+            <div
+              class="service-item guide starlight mouse-interactive"
+              data-section="guide"
+              onclick="location.href='reservation.html'"
+            >
               <div class="service-icon">📋</div>
               <h3>GUIDE</h3>
               <p>이용안내</p>
@@ -144,8 +165,9 @@
             </div>
 
             <div
-              class="service-item reservation starlight"
+              class="service-item reservation starlight mouse-interactive"
               data-section="reservation"
+              onclick="location.href='reservation.html'"
             >
               <div class="service-icon">🕐</div>
               <h3>RESERVATION</h3>
@@ -153,28 +175,44 @@
               <div class="glow-effect"></div>
             </div>
 
-            <div class="service-item wait starlight" data-section="wait">
+            <div
+              class="service-item wait starlight mouse-interactive"
+              data-section="wait"
+              onclick="location.href='reservation.html'"
+            >
               <div class="service-icon">⏰</div>
               <h3>RESERVATION WAIT</h3>
               <p>대기예약</p>
               <div class="glow-effect"></div>
             </div>
 
-            <div class="service-item charge starlight" data-section="charge">
+            <div
+              class="service-item charge starlight mouse-interactive"
+              data-section="charge"
+              onclick="location.href='reservation.html'"
+            >
               <div class="service-icon">📊</div>
               <h3>CHARGE GUIDE</h3>
               <p>요금안내</p>
               <div class="glow-effect"></div>
             </div>
 
-            <div class="service-item join starlight" data-section="join">
+            <div
+              class="service-item join starlight mouse-interactive"
+              data-section="join"
+              onclick="location.href='news.html'"
+            >
               <div class="service-icon">💬</div>
               <h3>JOIN</h3>
               <p>조인게시판</p>
               <div class="glow-effect"></div>
             </div>
 
-            <div class="service-item notice starlight" data-section="notice">
+            <div
+              class="service-item notice starlight mouse-interactive"
+              data-section="notice"
+              onclick="location.href='news.html'"
+            >
               <div class="service-icon">📢</div>
               <h3>NOTICE</h3>
               <p>공지사항</p>
@@ -222,7 +260,10 @@
             <p>각 홀의 특징과 난이도를 확인하세요</p>
           </div>
           <div class="course-grid">
-            <div class="course-card">
+            <div
+              class="course-card mouse-interactive"
+              onclick="location.href='course.html'"
+            >
               <div class="course-image">
                 <img
                   src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=300&q=80"
@@ -236,7 +277,10 @@
                 <span class="difficulty easy">쉬움</span>
               </div>
             </div>
-            <div class="course-card">
+            <div
+              class="course-card mouse-interactive"
+              onclick="location.href='course.html'"
+            >
               <div class="course-image">
                 <img
                   src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500&h=300&fit=crop"
@@ -250,7 +294,10 @@
                 <span class="difficulty hard">어려움</span>
               </div>
             </div>
-            <div class="course-card">
+            <div
+              class="course-card mouse-interactive"
+              onclick="location.href='course.html'"
+            >
               <div class="course-image">
                 <img
                   src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=300&q=80"
@@ -371,6 +418,21 @@
     </footer>
 
     <!-- Modular JavaScript -->
+    <script>
+      // 페이지 로드 시 즉시 스크롤을 맨 위로 이동
+      window.addEventListener("load", function () {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+
+      // DOM이 준비되면 즉시 스크롤 위치 초기화
+      document.addEventListener("DOMContentLoaded", function () {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+    </script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
