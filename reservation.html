@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이용안내 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1593111774240-d529f12cf592?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        opacity: 0.9;
+        margin-bottom: 2rem;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .breadcrumb a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .breadcrumb a:hover {
+        opacity: 0.7;
+      }
+
+      .reservation-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .reservation-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        margin-bottom: 80px;
+      }
+
+      .reservation-form {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .info-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .info-card h3 {
+        color: #667eea;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+      }
+
+      .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      .pricing-section {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .pricing-card {
+        background: white;
+        border: 2px solid #e1e5e9;
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: #667eea;
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+      }
+
+      .pricing-card.featured {
+        border-color: #667eea;
+        transform: scale(1.05);
+      }
+
+      .pricing-card.featured::before {
+        content: "인기";
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: #667eea;
+        color: white;
+        padding: 5px 40px;
+        font-size: 12px;
+        font-weight: 600;
+        transform: rotate(45deg);
+      }
+
+      .pricing-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .pricing-price {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 20px;
+      }
+
+      .pricing-price span {
+        font-size: 1rem;
+        color: #666;
+      }
+
+      .pricing-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 30px;
+      }
+
+      .pricing-features li {
+        padding: 8px 0;
+        color: #666;
+      }
+
+      .pricing-features li::before {
+        content: "✓";
+        color: #667eea;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .btn-pricing {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-pricing:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .rules-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .rules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .rule-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .rule-card h3 {
+        color: #667eea;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+      }
+
+      .rule-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .rule-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+        color: #666;
+      }
+
+      .rule-list li:last-child {
+        border-bottom: none;
+      }
+
+      .rule-list li::before {
+        content: "•";
+        color: #667eea;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .faq-section {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .faq-item {
+        background: white;
+        border: 1px solid #e1e5e9;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 20px;
+        background: #f8f9fa;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
+
+      .faq-question:hover {
+        background: #e9ecef;
+      }
+
+      .faq-answer {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-answer.active {
+        padding: 20px;
+        max-height: 200px;
+      }
+
+      .faq-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+      }
+
+      @media (max-width: 768px) {
+        .reservation-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .pricing-card.featured {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="auth-links">
+            <a href="#" class="login-btn">로그인</a>
+            <span>|</span>
+            <a href="#" class="signup-btn">회원가입</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-circle">
+                <span class="logo-text-inner">GC</span>
+              </div>
+            </div>
+            <div class="logo-text">
+              <div>고성 컨트리클럽</div>
+              <div>GOSUNG CC</div>
+            </div>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="club.html">클럽소개</a></li>
+            <li><a href="reservation.html" class="active">이용안내</a></li>
+            <li><a href="course.html">코스소개</a></li>
+            <li><a href="event.html">예약</a></li>
+            <li><a href="facilities.html">부대시설</a></li>
+            <li><a href="news.html">정보마당</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">이용안내</h1>
+            <p class="page-subtitle">고성 컨트리클럽 이용 방법과 요금 안내</p>
+            <div class="breadcrumb">
+              <a href="index.html">홈</a>
+              <span>></span>
+              <span>이용안내</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reservation-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            예약하기
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 3rem;
+            "
+          >
+            간편한 온라인 예약 시스템
+          </p>
+
+          <div class="reservation-grid">
+            <div class="reservation-form">
+              <h3 style="margin-bottom: 30px; color: #667eea">예약 신청</h3>
+              <form id="reservationForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" required />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="date">희망 날짜</label>
+                    <input type="date" id="date" name="date" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="time">희망 시간</label>
+                    <select id="time" name="time" required>
+                      <option value="">시간 선택</option>
+                      <option value="06:00">06:00</option>
+                      <option value="06:30">06:30</option>
+                      <option value="07:00">07:00</option>
+                      <option value="07:30">07:30</option>
+                      <option value="08:00">08:00</option>
+                      <option value="08:30">08:30</option>
+                      <option value="09:00">09:00</option>
+                      <option value="09:30">09:30</option>
+                      <option value="10:00">10:00</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="12:30">12:30</option>
+                      <option value="13:00">13:00</option>
+                      <option value="13:30">13:30</option>
+                      <option value="14:00">14:00</option>
+                      <option value="14:30">14:30</option>
+                      <option value="15:00">15:00</option>
+                      <option value="15:30">15:30</option>
+                      <option value="16:00">16:00</option>
+                      <option value="16:30">16:30</option>
+                      <option value="17:00">17:00</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="players">플레이어 수</label>
+                    <select id="players" name="players" required>
+                      <option value="">인원 선택</option>
+                      <option value="1">1명</option>
+                      <option value="2">2명</option>
+                      <option value="3">3명</option>
+                      <option value="4">4명</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="package">패키지</label>
+                    <select id="package" name="package" required>
+                      <option value="">패키지 선택</option>
+                      <option value="basic">기본 패키지</option>
+                      <option value="premium">프리미엄 패키지</option>
+                      <option value="vip">VIP 패키지</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="message">특별 요청사항</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    placeholder="특별한 요청사항이 있으시면 적어주세요."
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">예약 신청하기</button>
+              </form>
+            </div>
+
+            <div class="info-card">
+              <h3>예약 안내</h3>
+              <div class="info-item">
+                <div class="info-icon">📅</div>
+                <div>
+                  <strong>예약 가능 시간</strong><br />
+                  평일: 06:00 - 17:00<br />
+                  주말: 06:00 - 16:00
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">⏰</div>
+                <div>
+                  <strong>예약 변경/취소</strong><br />
+                  당일 2시간 전까지 가능<br />
+                  취소 시 수수료 발생
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">👥</div>
+                <div>
+                  <strong>플레이 인원</strong><br />
+                  최소 1명, 최대 4명<br />
+                  단체 예약 별도 문의
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">📞</div>
+                <div>
+                  <strong>문의 전화</strong><br />
+                  033-123-4567<br />
+                  평일 09:00 - 18:00
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pricing-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            요금 안내
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            다양한 패키지로 선택하세요
+          </p>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <h3 class="pricing-title">기본 패키지</h3>
+              <div class="pricing-price">80,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>카트 렌탈</li>
+                <li>기본 장비 대여</li>
+                <li>클럽하우스 이용</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+
+            <div class="pricing-card featured">
+              <h3 class="pricing-title">프리미엄 패키지</h3>
+              <div class="pricing-price">120,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>프리미엄 카트</li>
+                <li>고급 장비 대여</li>
+                <li>점심 식사 포함</li>
+                <li>프로 레슨 30분</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+
+            <div class="pricing-card">
+              <h3 class="pricing-title">VIP 패키지</h3>
+              <div class="pricing-price">200,000<span>원</span></div>
+              <ul class="pricing-features">
+                <li>18홀 플레이</li>
+                <li>전용 카트</li>
+                <li>프리미엄 장비</li>
+                <li>고급 식사</li>
+                <li>개인 프로 레슨</li>
+                <li>전용 라운지</li>
+                <li>무료 주차</li>
+              </ul>
+              <button class="btn-pricing">예약하기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rules-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            이용 규칙
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            안전하고 즐거운 플레이를 위한 규칙
+          </p>
+
+          <div class="rules-grid">
+            <div class="rule-card">
+              <h3>기본 규칙</h3>
+              <ul class="rule-list">
+                <li>예약 시간 10분 전 도착</li>
+                <li>적절한 골프 복장 착용</li>
+                <li>모바일 폰 무음 모드</li>
+                <li>다른 플레이어 배려</li>
+                <li>코스 내 금연</li>
+              </ul>
+            </div>
+
+            <div class="rule-card">
+              <h3>안전 규칙</h3>
+              <ul class="rule-list">
+                <li>안전 거리 확보</li>
+                <li>위험 신호 준수</li>
+                <li>카트 안전 운전</li>
+                <li>기상 악화 시 중단</li>
+                <li>응급상황 신고</li>
+              </ul>
+            </div>
+
+            <div class="rule-card">
+              <h3>에티켓</h3>
+              <ul class="rule-list">
+                <li>그린 보호</li>
+                <li>디바이드 수리</li>
+                <li>플레이 속도 유지</li>
+                <li>정중한 태도</li>
+                <li>시설물 보호</li>
+              </ul>
+            </div>
+
+            <div class="rule-card">
+              <h3>취소/환불</h3>
+              <ul class="rule-list">
+                <li>당일 취소: 50% 환불</li>
+                <li>1일 전 취소: 80% 환불</li>
+                <li>2일 전 취소: 100% 환불</li>
+                <li>기상 악화: 100% 환불</li>
+                <li>환불은 3-5일 소요</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            자주 묻는 질문
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 3rem;
+            "
+          >
+            궁금한 점을 확인해보세요
+          </p>
+
+          <div class="faq-container">
+            <div class="faq-item">
+              <div class="faq-question">
+                <span>예약은 언제까지 가능한가요?</span>
+                <span class="faq-icon">▼</span>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  예약은 최대 30일 전부터 당일까지 가능합니다. 인기 시간대는
+                  조기 예약을 권장합니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">
+                <span>예약 변경이나 취소는 어떻게 하나요?</span>
+                <span class="faq-icon">▼</span>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  온라인 예약 시스템에서 직접 변경하거나 전화로 문의하시면
+                  됩니다. 취소 수수료는 일정에 따라 다릅니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">
+                <span>골프 장비를 대여할 수 있나요?</span>
+                <span class="faq-icon">▼</span>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  네, 클럽에서 골프 장비를 대여해드립니다. 기본 장비부터
+                  프리미엄 장비까지 다양한 옵션이 있습니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">
+                <span>날씨가 나쁠 때는 어떻게 하나요?</span>
+                <span class="faq-icon">▼</span>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  기상 악화로 인한 플레이 불가 시 100% 환불해드립니다. 안전을
+                  최우선으로 합니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">
+                <span>단체 예약은 어떻게 하나요?</span>
+                <span class="faq-icon">▼</span>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  10명 이상의 단체 예약은 별도 문의가 필요합니다. 전화로
+                  상담해주시면 특별 요금을 제공합니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      // FAQ 토글 기능
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const faqItem = question.parentElement;
+          const answer = faqItem.querySelector(".faq-answer");
+
+          // 다른 FAQ 닫기
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            if (item !== faqItem) {
+              item.classList.remove("active");
+              item.querySelector(".faq-answer").classList.remove("active");
+            }
+          });
+
+          // 현재 FAQ 토글
+          faqItem.classList.toggle("active");
+          answer.classList.toggle("active");
+        });
+      });
+
+      // 예약 폼 제출
+      document
+        .getElementById("reservationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("예약이 신청되었습니다. 확인 후 연락드리겠습니다.");
+        });
+
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(
+          ".pricing-card, .rule-card, .faq-item"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>
