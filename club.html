@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>클럽소개 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        opacity: 0.9;
+        margin-bottom: 2rem;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .breadcrumb a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .breadcrumb a:hover {
+        opacity: 0.7;
+      }
+
+      .club-intro {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .intro-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        margin-bottom: 100px;
+      }
+
+      .intro-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #1e3c72;
+      }
+
+      .intro-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #666;
+        margin-bottom: 2rem;
+      }
+
+      .intro-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .intro-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .intro-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .features-section {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2rem;
+        color: white;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #1e3c72;
+      }
+
+      .feature-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .stats-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        text-align: center;
+      }
+
+      .stat-item h3 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #fff;
+      }
+
+      .stat-item p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .history-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #1e3c72;
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+        width: 50%;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+        padding-right: 40px;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+        padding-left: 40px;
+      }
+
+      .timeline-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .timeline-content::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content::before {
+        right: -20px;
+        border-left-color: white;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content::before {
+        left: -20px;
+        border-right-color: white;
+      }
+
+      .timeline-year {
+        position: absolute;
+        top: 20px;
+        width: 40px;
+        height: 40px;
+        background: #1e3c72;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-year {
+        right: -20px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-year {
+        left: -20px;
+      }
+
+      .cta-section {
+        padding: 100px 0;
+        background: white;
+        text-align: center;
+      }
+
+      .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #1e3c72;
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 40px;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #1e3c72;
+        border: 2px solid #1e3c72;
+      }
+
+      .btn-secondary:hover {
+        background: #1e3c72;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .intro-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          left: 0 !important;
+          padding-left: 60px !important;
+          padding-right: 0 !important;
+        }
+
+        .timeline-year {
+          left: 0 !important;
+        }
+
+        .timeline-content::before {
+          left: -20px !important;
+          border-right-color: white !important;
+          border-left-color: transparent !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="auth-links">
+            <a href="#" class="login-btn">로그인</a>
+            <span>|</span>
+            <a href="#" class="signup-btn">회원가입</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-circle">
+                <span class="logo-text-inner">GC</span>
+              </div>
+            </div>
+            <div class="logo-text">
+              <div>고성 컨트리클럽</div>
+              <div>GOSUNG CC</div>
+            </div>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="club.html" class="active">클럽소개</a></li>
+            <li><a href="reservation.html">이용안내</a></li>
+            <li><a href="course.html">코스소개</a></li>
+            <li><a href="event.html">예약</a></li>
+            <li><a href="facilities.html">부대시설</a></li>
+            <li><a href="news.html">정보마당</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">클럽소개</h1>
+            <p class="page-subtitle">고성 컨트리클럽의 특별함을 만나보세요</p>
+            <div class="breadcrumb">
+              <a href="index.html">홈</a>
+              <span>></span>
+              <span>클럽소개</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="club-intro">
+        <div class="container">
+          <div class="intro-grid">
+            <div class="intro-content">
+              <h2>프리미엄 골프 경험</h2>
+              <p>
+                고성 컨트리클럽은 자연과 조화를 이룬 아름다운 골프장에서 최고의
+                골프 경험을 제공합니다. 18홀의 정교한 코스 설계와 최상의 그린
+                관리로 모든 골퍼들에게 잊을 수 없는 순간을 선사합니다.
+              </p>
+              <p>
+                우리는 단순한 골프장을 넘어서, 골퍼들이 꿈꾸는 이상적인 골프
+                라이프스타일을 제공하는 프리미엄 컨트리클럽입니다.
+              </p>
+            </div>
+            <div class="intro-image">
+              <img
+                src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=600&h=400&fit=crop"
+                alt="고성 컨트리클럽"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #1e3c72;
+            "
+          >
+            클럽의 특징
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            고성 컨트리클럽만의 특별한 장점들
+          </p>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🏌️</div>
+              <h3>18홀 정교한 코스</h3>
+              <p>
+                자연 지형을 최대한 활용한 18홀의 전략적 코스 설계로 다양한
+                난이도와 재미를 제공합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🌱</div>
+              <h3>최상의 그린 관리</h3>
+              <p>
+                전문 그린키퍼들이 관리하는 최고 품질의 그린으로 일관된 플레이
+                조건을 보장합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">👨‍🏫</div>
+              <h3>전문 프로 레슨</h3>
+              <p>
+                경험 많은 프로들이 제공하는 개인 맞춤형 레슨으로 골프 실력을
+                향상시킬 수 있습니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🏛️</div>
+              <h3>프리미엄 클럽하우스</h3>
+              <p>
+                고급스러운 클럽하우스에서 편안한 휴식과 다양한 부대시설을
+                이용하실 수 있습니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🍽️</div>
+              <h3>고급 레스토랑</h3>
+              <p>
+                신선한 재료로 만든 정통 한식과 양식을 제공하는 고급 레스토랑을
+                운영합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🚗</div>
+              <h3>편리한 접근성</h3>
+              <p>
+                서울에서 1시간 거리의 접근성 좋은 위치에 있어 언제든 편리하게
+                이용하실 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <div class="container">
+          <h2
+            style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem"
+          >
+            클럽 현황
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              opacity: 0.9;
+              margin-bottom: 3rem;
+            "
+          >
+            고성 컨트리클럽의 주요 통계
+          </p>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <h3>18</h3>
+              <p>홀 수</p>
+            </div>
+            <div class="stat-item">
+              <h3>7,200</h3>
+              <p>야드 (총 거리)</p>
+            </div>
+            <div class="stat-item">
+              <h3>72</h3>
+              <p>파 (총합)</p>
+            </div>
+            <div class="stat-item">
+              <h3>15</h3>
+              <p>년 (운영 기간)</p>
+            </div>
+            <div class="stat-item">
+              <h3>500+</h3>
+              <p>회원 수</p>
+            </div>
+            <div class="stat-item">
+              <h3>98%</h3>
+              <p>만족도</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="history-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #1e3c72;
+            "
+          >
+            클럽 연혁
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 3rem;
+            "
+          >
+            고성 컨트리클럽의 발전 과정
+          </p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-year">2009</div>
+              <div class="timeline-content">
+                <h3>클럽 설립</h3>
+                <p>
+                  고성 컨트리클럽이 정식으로 설립되어 골프 애호가들에게 문을
+                  열었습니다.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2012</div>
+              <div class="timeline-content">
+                <h3>18홀 완성</h3>
+                <p>
+                  전체 18홀 코스가 완성되어 본격적인 컨트리클럽으로서의 면모를
+                  갖췄습니다.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2015</div>
+              <div class="timeline-content">
+                <h3>클럽하우스 확장</h3>
+                <p>
+                  회원들의 편의를 위해 클럽하우스를 대폭 확장하고 부대시설을
+                  추가했습니다.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2018</div>
+              <div class="timeline-content">
+                <h3>그린 리뉴얼</h3>
+                <p>
+                  최신 기술을 도입하여 그린을 전면 리뉴얼하고 플레이 조건을 대폭
+                  개선했습니다.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2021</div>
+              <div class="timeline-content">
+                <h3>디지털 혁신</h3>
+                <p>
+                  스마트 예약 시스템과 모바일 앱을 도입하여 회원 서비스를
+                  혁신했습니다.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2024</div>
+              <div class="timeline-content">
+                <h3>지속가능 경영</h3>
+                <p>
+                  친환경 경영을 도입하고 ESG 경영을 통해 지속가능한 골프장으로
+                  발전하고 있습니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
+            <h2>고성 컨트리클럽과 함께하세요</h2>
+            <p>프리미엄 골프 경험과 특별한 서비스를 경험해보세요</p>
+            <div class="cta-buttons">
+              <a href="reservation.html" class="btn-primary">예약하기</a>
+              <a href="course.html" class="btn-secondary">코스 둘러보기</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(
+          ".feature-card, .timeline-item, .stat-item"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>
