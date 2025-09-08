@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>코스소개 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        opacity: 0.9;
+        margin-bottom: 2rem;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .breadcrumb a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .breadcrumb a:hover {
+        opacity: 0.7;
+      }
+
+      .course-overview {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 80px;
+      }
+
+      .overview-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #11998e;
+      }
+
+      .overview-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #666;
+        margin-bottom: 2rem;
+      }
+
+      .overview-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .overview-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .overview-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .course-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #11998e;
+        margin-bottom: 10px;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 1.1rem;
+      }
+
+      .course-details {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .course-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .course-image {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .course-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .course-card:hover .course-image img {
+        transform: scale(1.1);
+      }
+
+      .course-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(17, 153, 142, 0.8),
+          rgba(56, 239, 125, 0.8)
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .course-card:hover .course-overlay {
+        opacity: 1;
+      }
+
+      .course-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      .course-par {
+        font-size: 1.2rem;
+        color: white;
+        font-weight: 600;
+      }
+
+      .course-info {
+        padding: 30px;
+      }
+
+      .course-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .course-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .course-specs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .spec-item {
+        text-align: center;
+      }
+
+      .spec-label {
+        font-size: 0.9rem;
+        color: #999;
+        margin-bottom: 5px;
+      }
+
+      .spec-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #11998e;
+      }
+
+      .difficulty {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .difficulty.easy {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .difficulty.medium {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .difficulty.hard {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .course-features {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2rem;
+        color: white;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #11998e;
+      }
+
+      .feature-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .course-map {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .map-container {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        margin-top: 60px;
+      }
+
+      .map-image {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+      }
+
+      .map-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(17, 153, 142, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .map-info {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .map-info h3 {
+        color: #11998e;
+        margin-bottom: 10px;
+      }
+
+      .map-info p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .btn-map {
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-map:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+      }
+
+      .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+        color: white;
+        text-align: center;
+      }
+
+      .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #11998e;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: #11998e;
+      }
+
+      @media (max-width: 768px) {
+        .overview-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .course-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .course-specs {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="auth-links">
+            <a href="#" class="login-btn">로그인</a>
+            <span>|</span>
+            <a href="#" class="signup-btn">회원가입</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-circle">
+                <span class="logo-text-inner">GC</span>
+              </div>
+            </div>
+            <div class="logo-text">
+              <div>고성 컨트리클럽</div>
+              <div>GOSUNG CC</div>
+            </div>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="club.html">클럽소개</a></li>
+            <li><a href="reservation.html">이용안내</a></li>
+            <li><a href="course.html" class="active">코스소개</a></li>
+            <li><a href="event.html">예약</a></li>
+            <li><a href="facilities.html">부대시설</a></li>
+            <li><a href="news.html">정보마당</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">코스소개</h1>
+            <p class="page-subtitle">
+              고성 컨트리클럽의 18홀 코스를 만나보세요
+            </p>
+            <div class="breadcrumb">
+              <a href="index.html">홈</a>
+              <span>></span>
+              <span>코스소개</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="course-overview">
+        <div class="container">
+          <div class="overview-grid">
+            <div class="overview-content">
+              <h2>18홀 프리미엄 코스</h2>
+              <p>
+                고성 컨트리클럽의 18홀 코스는 자연 지형을 최대한 활용하여 설계된
+                전략적 코스입니다. 각 홀마다 독특한 특성과 도전 요소를 가지고
+                있어 모든 레벨의 골퍼들에게 즐거움과 도전을 동시에 제공합니다.
+              </p>
+              <p>
+                아름다운 자연 경관과 함께하는 골프 플레이로 일상의 스트레스를
+                해소하고 새로운 도전을 경험해보세요.
+              </p>
+            </div>
+            <div class="overview-image">
+              <img
+                src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=400&fit=crop"
+                alt="고성 컨트리클럽 코스"
+              />
+            </div>
+          </div>
+
+          <div class="course-stats">
+            <div class="stat-card">
+              <div class="stat-number">18</div>
+              <div class="stat-label">홀 수</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">7,200</div>
+              <div class="stat-label">야드 (총 거리)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">72</div>
+              <div class="stat-label">파 (총합)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">15</div>
+              <div class="stat-label">년 (운영 기간)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="course-details">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            홀별 상세 정보
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            각 홀의 특징과 난이도를 확인하세요
+          </p>
+
+          <div class="course-grid">
+            <div class="course-card">
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=400&h=250&fit=crop"
+                  alt="1번 홀"
+                />
+                <div class="course-overlay">
+                  <div class="course-number">1</div>
+                  <div class="course-par">PAR 4</div>
+                </div>
+              </div>
+              <div class="course-info">
+                <h3 class="course-title">1번 홀 - 스타트</h3>
+                <p class="course-description">
+                  골프의 시작을 알리는 1번 홀. 넓은 페어웨이와 적절한 거리로
+                  자신감을 얻을 수 있는 홀입니다.
+                </p>
+                <div class="course-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">거리</div>
+                    <div class="spec-value">420야드</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">파</div>
+                    <div class="spec-value">4</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">핸디캡</div>
+                    <div class="spec-value">14</div>
+                  </div>
+                </div>
+                <span class="difficulty easy">쉬움</span>
+              </div>
+            </div>
+
+            <div class="course-card">
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=250&fit=crop"
+                  alt="7번 홀"
+                />
+                <div class="course-overlay">
+                  <div class="course-number">7</div>
+                  <div class="course-par">PAR 3</div>
+                </div>
+              </div>
+              <div class="course-info">
+                <h3 class="course-title">7번 홀 - 챌린지</h3>
+                <p class="course-description">
+                  물과 벙커가 있는 전략적 홀. 정확한 샷이 필요한 도전적인 파 3
+                  홀입니다.
+                </p>
+                <div class="course-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">거리</div>
+                    <div class="spec-value">180야드</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">파</div>
+                    <div class="spec-value">3</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">핸디캡</div>
+                    <div class="spec-value">2</div>
+                  </div>
+                </div>
+                <span class="difficulty hard">어려움</span>
+              </div>
+            </div>
+
+            <div class="course-card">
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=250&fit=crop"
+                  alt="18번 홀"
+                />
+                <div class="course-overlay">
+                  <div class="course-number">18</div>
+                  <div class="course-par">PAR 5</div>
+                </div>
+              </div>
+              <div class="course-info">
+                <h3 class="course-title">18번 홀 - 피니시</h3>
+                <p class="course-description">
+                  골프의 마무리를 장식하는 파 5 홀. 클럽하우스를 배경으로 한
+                  아름다운 피니시 홀입니다.
+                </p>
+                <div class="course-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">거리</div>
+                    <div class="spec-value">580야드</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">파</div>
+                    <div class="spec-value">5</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">핸디캡</div>
+                    <div class="spec-value">8</div>
+                  </div>
+                </div>
+                <span class="difficulty medium">보통</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="course-features">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            코스 특징
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            고성 컨트리클럽만의 특별한 장점들
+          </p>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🌳</div>
+              <h3>자연 친화적 설계</h3>
+              <p>
+                기존 자연 지형을 최대한 보존하면서 설계된 친환경 골프장으로
+                자연과 조화를 이룹니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h3>전략적 코스</h3>
+              <p>
+                각 홀마다 다양한 전략적 요소를 배치하여 골퍼의 기술과 판단력을
+                시험합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🏔️</div>
+              <h3>아름다운 경관</h3>
+              <p>
+                산과 호수를 배경으로 한 아름다운 자연 경관을 즐기며 골프를
+                플레이할 수 있습니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3>최신 시설</h3>
+              <p>
+                최신 기술로 관리되는 그린과 최고급 시설로 최상의 플레이 조건을
+                제공합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🌱</div>
+              <h3>친환경 관리</h3>
+              <p>
+                환경을 고려한 친환경 관리 시스템으로 지속가능한 골프장을
+                운영합니다.
+              </p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h3>다양한 난이도</h3>
+              <p>
+                초보자부터 고수까지 모든 레벨의 골퍼들이 즐길 수 있는 다양한
+                난이도를 제공합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="course-map">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            코스 맵
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            전체 18홀 코스 레이아웃
+          </p>
+
+          <div class="map-container">
+            <img
+              src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&h=500&fit=crop"
+              alt="코스 맵"
+              class="map-image"
+            />
+            <div class="map-overlay">
+              <div class="map-info">
+                <h3>18홀 코스 맵</h3>
+                <p>전체 코스의 레이아웃과 각 홀의 위치를 확인하세요</p>
+                <button class="btn-map">큰 지도 보기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
+            <h2>지금 바로 코스를 체험해보세요</h2>
+            <p>아름다운 자연 속에서 최고의 골프 경험을 만나보세요</p>
+            <div class="cta-buttons">
+              <a href="reservation.html" class="btn-primary">예약하기</a>
+              <a href="club.html" class="btn-secondary">클럽 소개</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(
+          ".course-card, .feature-card, .stat-card"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+      });
+
+      // 큰 지도 보기 버튼
+      document.querySelector(".btn-map").addEventListener("click", function () {
+        alert("큰 지도 보기 기능이 곧 추가될 예정입니다.");
+      });
+    </script>
+  </body>
+</html>
