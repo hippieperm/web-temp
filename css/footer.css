@@ -1,8 +1,20 @@
 /* Footer */
 .footer {
-  background: #2c3e50;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
   padding: 60px 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #4caf50, transparent);
 }
 
 .footer-content {
@@ -10,32 +22,45 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
 }
 
 .footer-info h3 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #4caf50;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .footer-info p {
   color: #bdc3c7;
   margin-bottom: 10px;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
 .footer-links {
   display: flex;
   gap: 30px;
+  align-items: center;
 }
 
 .footer-links a {
   color: #bdc3c7;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .footer-links a:hover {
   color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+  transform: translateY(-2px);
 }
 
 .footer-bottom {
@@ -43,17 +68,73 @@
   padding-top: 20px;
   border-top: 1px solid #34495e;
   color: #bdc3c7;
+  font-size: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-bottom p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Footer Animation */
+.footer {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Footer */
 @media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 20px;
+  }
+
   .footer-content {
     flex-direction: column;
     gap: 30px;
+    text-align: center;
   }
 
   .footer-links {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-info h3 {
+    font-size: 20px;
+  }
+
+  .footer-info p {
+    font-size: 13px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
     flex-direction: column;
     gap: 15px;
+  }
+
+  .footer-links a {
+    display: block;
+    text-align: center;
   }
 }
