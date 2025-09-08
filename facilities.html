@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>부대시설 - 고성 컨트리클럽</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/transitions.css" />
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop")
+          center/cover;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        opacity: 0.9;
+        margin-bottom: 2rem;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .breadcrumb a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .breadcrumb a:hover {
+        opacity: 0.7;
+      }
+
+      .facilities-overview {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 80px;
+      }
+
+      .overview-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #ff6b6b;
+      }
+
+      .overview-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #666;
+        margin-bottom: 2rem;
+      }
+
+      .overview-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .overview-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .overview-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .facilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .facility-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .facility-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .facility-image {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .facility-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .facility-card:hover .facility-image img {
+        transform: scale(1.1);
+      }
+
+      .facility-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 107, 0.8),
+          rgba(238, 90, 36, 0.8)
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .facility-card:hover .facility-overlay {
+        opacity: 1;
+      }
+
+      .facility-icon {
+        font-size: 3rem;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      .facility-title {
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 600;
+      }
+
+      .facility-info {
+        padding: 30px;
+      }
+
+      .facility-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .facility-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .facility-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .facility-features li {
+        padding: 5px 0;
+        color: #666;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .facility-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #ff6b6b;
+        font-weight: bold;
+      }
+
+      .facility-hours {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .facility-hours h4 {
+        color: #ff6b6b;
+        margin-bottom: 5px;
+      }
+
+      .facility-hours p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .amenities-section {
+        padding: 100px 0;
+        background: white;
+      }
+
+      .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .amenity-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .amenity-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        border-color: #ff6b6b;
+      }
+
+      .amenity-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2rem;
+        color: white;
+      }
+
+      .amenity-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #ff6b6b;
+      }
+
+      .amenity-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .dining-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+      }
+
+      .dining-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .dining-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .dining-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .dining-image {
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .dining-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .dining-card:hover .dining-image img {
+        transform: scale(1.05);
+      }
+
+      .dining-info {
+        padding: 30px;
+      }
+
+      .dining-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .dining-type {
+        color: #ff6b6b;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .dining-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .dining-specs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .spec-item {
+        text-align: center;
+      }
+
+      .spec-label {
+        font-size: 0.9rem;
+        color: #999;
+        margin-bottom: 5px;
+      }
+
+      .spec-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ff6b6b;
+      }
+
+      .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        color: white;
+        text-align: center;
+      }
+
+      .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #ff6b6b;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: #ff6b6b;
+      }
+
+      @media (max-width: 768px) {
+        .overview-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .facilities-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .dining-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="auth-links">
+            <a href="#" class="login-btn">로그인</a>
+            <span>|</span>
+            <a href="#" class="signup-btn">회원가입</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-circle">
+                <span class="logo-text-inner">GC</span>
+              </div>
+            </div>
+            <div class="logo-text">
+              <div>고성 컨트리클럽</div>
+              <div>GOSUNG CC</div>
+            </div>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="club.html">클럽소개</a></li>
+            <li><a href="reservation.html">이용안내</a></li>
+            <li><a href="course.html">코스소개</a></li>
+            <li><a href="event.html">예약</a></li>
+            <li><a href="facilities.html" class="active">부대시설</a></li>
+            <li><a href="news.html">정보마당</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">부대시설</h1>
+            <p class="page-subtitle">
+              고성 컨트리클럽의 프리미엄 부대시설을 만나보세요
+            </p>
+            <div class="breadcrumb">
+              <a href="index.html">홈</a>
+              <span>></span>
+              <span>부대시설</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="facilities-overview">
+        <div class="container">
+          <div class="overview-grid">
+            <div class="overview-content">
+              <h2>프리미엄 부대시설</h2>
+              <p>
+                고성 컨트리클럽은 골프 플레이뿐만 아니라 다양한 부대시설을 통해
+                회원님들의 편의와 만족을 최우선으로 제공합니다. 최고급
+                클럽하우스부터 다양한 레스토랑, 스파, 피트니스 센터까지 모든
+                것을 갖춘 프리미엄 컨트리클럽입니다.
+              </p>
+              <p>
+                가족과 함께하는 시간부터 비즈니스 미팅까지, 모든 순간을 특별하게
+                만들어드립니다.
+              </p>
+            </div>
+            <div class="overview-image">
+              <img
+                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop"
+                alt="고성 컨트리클럽 부대시설"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="facilities-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            주요 시설
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            최고급 시설로 완성된 프리미엄 공간
+          </p>
+
+          <div class="facilities-grid">
+            <div class="facility-card">
+              <div class="facility-image">
+                <img
+                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop"
+                  alt="클럽하우스"
+                />
+                <div class="facility-overlay">
+                  <div class="facility-icon">🏛️</div>
+                  <div class="facility-title">클럽하우스</div>
+                </div>
+              </div>
+              <div class="facility-info">
+                <h3 class="facility-name">프리미엄 클럽하우스</h3>
+                <p class="facility-description">
+                  고급스러운 인테리어와 최신 시설을 갖춘 클럽하우스에서 편안한
+                  휴식과 다양한 서비스를 이용하실 수 있습니다.
+                </p>
+                <ul class="facility-features">
+                  <li>VIP 라운지</li>
+                  <li>회의실</li>
+                  <li>프라이빗 라운지</li>
+                  <li>무료 Wi-Fi</li>
+                </ul>
+                <div class="facility-hours">
+                  <h4>운영시간</h4>
+                  <p>06:00 - 22:00 (연중무휴)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="facility-card">
+              <div class="facility-image">
+                <img
+                  src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=250&fit=crop"
+                  alt="스파 & 웰니스"
+                />
+                <div class="facility-overlay">
+                  <div class="facility-icon">🧘‍♀️</div>
+                  <div class="facility-title">스파 & 웰니스</div>
+                </div>
+              </div>
+              <div class="facility-info">
+                <h3 class="facility-name">스파 & 웰니스 센터</h3>
+                <p class="facility-description">
+                  골프 후 피로를 풀고 몸과 마음을 정화할 수 있는 프리미엄 스파와
+                  웰니스 시설을 제공합니다.
+                </p>
+                <ul class="facility-features">
+                  <li>사우나 & 찜질방</li>
+                  <li>마사지 서비스</li>
+                  <li>피트니스 센터</li>
+                  <li>실내 수영장</li>
+                </ul>
+                <div class="facility-hours">
+                  <h4>운영시간</h4>
+                  <p>05:00 - 23:00 (연중무휴)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="facility-card">
+              <div class="facility-image">
+                <img
+                  src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop"
+                  alt="골프 연습장"
+                />
+                <div class="facility-overlay">
+                  <div class="facility-icon">⛳</div>
+                  <div class="facility-title">골프 연습장</div>
+                </div>
+              </div>
+              <div class="facility-info">
+                <h3 class="facility-name">프로 골프 연습장</h3>
+                <p class="facility-description">
+                  최신 시뮬레이터와 실외 드라이빙 레인지를 갖춘 전문적인 골프
+                  연습 시설입니다.
+                </p>
+                <ul class="facility-features">
+                  <li>실외 드라이빙 레인지</li>
+                  <li>골프 시뮬레이터</li>
+                  <li>퍼팅 그린</li>
+                  <li>프로 레슨</li>
+                </ul>
+                <div class="facility-hours">
+                  <h4>운영시간</h4>
+                  <p>06:00 - 20:00 (연중무휴)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="facility-card">
+              <div class="facility-image">
+                <img
+                  src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=250&fit=crop"
+                  alt="키즈 클럽"
+                />
+                <div class="facility-overlay">
+                  <div class="facility-icon">👶</div>
+                  <div class="facility-title">키즈 클럽</div>
+                </div>
+              </div>
+              <div class="facility-info">
+                <h3 class="facility-name">키즈 클럽</h3>
+                <p class="facility-description">
+                  가족 단위 방문 시 아이들이 안전하고 즐겁게 시간을 보낼 수 있는
+                  전용 공간입니다.
+                </p>
+                <ul class="facility-features">
+                  <li>놀이터</li>
+                  <li>키즈 카페</li>
+                  <li>교육 프로그램</li>
+                  <li>전담 보육사</li>
+                </ul>
+                <div class="facility-hours">
+                  <h4>운영시간</h4>
+                  <p>09:00 - 18:00 (주말만)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="amenities-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            편의시설
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            회원님의 편의를 위한 다양한 시설들
+          </p>
+
+          <div class="amenities-grid">
+            <div class="amenity-card">
+              <div class="amenity-icon">🚗</div>
+              <h3>주차장</h3>
+              <p>넓고 안전한 지하 주차장과 지상 주차장을 제공합니다.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon">🛍️</div>
+              <h3>프로샵</h3>
+              <p>최신 골프 용품과 브랜드 의류를 판매하는 전문 매장입니다.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon">🏥</div>
+              <h3>의료실</h3>
+              <p>응급상황에 대비한 의료실과 구급장비를 완비했습니다.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon">📱</div>
+              <h3>Wi-Fi</h3>
+              <p>전 구역에서 고속 무선 인터넷을 무료로 이용하실 수 있습니다.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon">🔒</div>
+              <h3>락커룸</h3>
+              <p>
+                개인 락커와 샤워 시설을 제공하여 편리하게 이용하실 수 있습니다.
+              </p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon">🎯</div>
+              <h3>게임룸</h3>
+              <p>
+                빌리어드, 당구, 탁구 등 다양한 게임 시설을 이용하실 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dining-section">
+        <div class="container">
+          <h2
+            style="
+              text-align: center;
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #333;
+            "
+          >
+            다이닝 시설
+          </h2>
+          <p
+            style="
+              text-align: center;
+              font-size: 1.2rem;
+              color: #666;
+              margin-bottom: 2rem;
+            "
+          >
+            다양한 맛과 분위기의 레스토랑들
+          </p>
+
+          <div class="dining-grid">
+            <div class="dining-card">
+              <div class="dining-image">
+                <img
+                  src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=200&fit=crop"
+                  alt="메인 레스토랑"
+                />
+              </div>
+              <div class="dining-info">
+                <h3 class="dining-name">메인 레스토랑</h3>
+                <p class="dining-type">한식 & 양식</p>
+                <p class="dining-description">
+                  신선한 재료로 만든 정통 한식과 양식을 제공하는 메인
+                  레스토랑입니다.
+                </p>
+                <div class="dining-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">좌석</div>
+                    <div class="spec-value">120석</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">운영시간</div>
+                    <div class="spec-value">06:00-22:00</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">예약</div>
+                    <div class="spec-value">필수</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dining-card">
+              <div class="dining-image">
+                <img
+                  src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=200&fit=crop"
+                  alt="카페 & 라운지"
+                />
+              </div>
+              <div class="dining-info">
+                <h3 class="dining-name">카페 & 라운지</h3>
+                <p class="dining-type">카페 & 간식</p>
+                <p class="dining-description">
+                  골프 후 휴식을 취하며 커피와 간식을 즐길 수 있는 아늑한 카페
+                  공간입니다.
+                </p>
+                <div class="dining-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">좌석</div>
+                    <div class="spec-value">60석</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">운영시간</div>
+                    <div class="spec-value">07:00-21:00</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">예약</div>
+                    <div class="spec-value">선택</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dining-card">
+              <div class="dining-image">
+                <img
+                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop"
+                  alt="VIP 다이닝"
+                />
+              </div>
+              <div class="dining-info">
+                <h3 class="dining-name">VIP 다이닝</h3>
+                <p class="dining-type">프리미엄 코스</p>
+                <p class="dining-description">
+                  특별한 날을 위한 프리미엄 다이닝 공간으로 최고급 서비스를
+                  제공합니다.
+                </p>
+                <div class="dining-specs">
+                  <div class="spec-item">
+                    <div class="spec-label">좌석</div>
+                    <div class="spec-value">20석</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">운영시간</div>
+                    <div class="spec-value">18:00-22:00</div>
+                  </div>
+                  <div class="spec-item">
+                    <div class="spec-label">예약</div>
+                    <div class="spec-value">필수</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <div class="cta-content">
+            <h2>지금 바로 부대시설을 체험해보세요</h2>
+            <p>프리미엄 시설에서 특별한 시간을 만나보세요</p>
+            <div class="cta-buttons">
+              <a href="reservation.html" class="btn-primary">예약하기</a>
+              <a href="club.html" class="btn-secondary">클럽 소개</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>고성 컨트리클럽</h3>
+            <p>프리미엄 골프 경험을 제공하는 최고의 컨트리클럽</p>
+          </div>
+          <div class="footer-section">
+            <h3>빠른 링크</h3>
+            <ul>
+              <li><a href="club.html">클럽소개</a></li>
+              <li><a href="reservation.html">이용안내</a></li>
+              <li><a href="course.html">코스소개</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>전화: 033-123-4567</p>
+            <p>이메일: info@gosungcc.co.kr</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 고성 컨트리클럽. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/animations.js"></script>
+    <script>
+      // 페이지 로드 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(
+          ".facility-card, .amenity-card, .dining-card"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+          el.style.transition = "all 0.6s ease";
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>
