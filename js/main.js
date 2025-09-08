@@ -27,6 +27,18 @@ class GosungApp {
   }
 
   async setupApp() {
+    // 페이지 로드 시 스크롤을 맨 위로 강제 이동
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 추가로 DOM이 완전히 로드된 후에도 스크롤 위치 확인
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 100);
+
     this.initializeHeroSlider();
     this.bindServiceEvents();
     this.bindCourseEvents();
