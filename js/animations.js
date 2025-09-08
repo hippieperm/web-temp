@@ -22,6 +22,12 @@ export class AnimationManager {
     this.setupParticleSystem();
     this.setup3DTilt();
     this.setupTextAnimations();
+    this.setupAdvancedEffects();
+    this.setupMatrixRain();
+    this.setupInteractiveParticles();
+    this.setupMorphingShapes();
+    this.setupHologramEffects();
+    this.setupLightEffects();
   }
 
   setupScrollAnimations() {
@@ -566,6 +572,307 @@ export class AnimationManager {
     });
   }
 
+  // 고급 효과들
+  setupAdvancedEffects() {
+    // 그라데이션 배경 추가
+    this.addGradientBackground();
+
+    // 네온 글로우 효과
+    this.setupNeonGlow();
+
+    // 글래스모피즘 효과
+    this.setupGlassmorphism();
+
+    // 무지개 테두리 효과
+    this.setupRainbowBorders();
+
+    // 리퀴드 효과
+    this.setupLiquidEffects();
+
+    // 스타라이트 효과
+    this.setupStarlightEffects();
+  }
+
+  addGradientBackground() {
+    const body = document.body;
+    body.classList.add("animated-gradient");
+  }
+
+  setupNeonGlow() {
+    const neonElements = document.querySelectorAll(
+      ".service-item, .course-card, .facility-card"
+    );
+    neonElements.forEach((element) => {
+      element.addEventListener("mouseenter", () => {
+        element.classList.add("neon-glow");
+      });
+
+      element.addEventListener("mouseleave", () => {
+        element.classList.remove("neon-glow");
+      });
+    });
+  }
+
+  setupGlassmorphism() {
+    const cards = document.querySelectorAll(".course-card, .facility-card");
+    cards.forEach((card) => {
+      card.classList.add("glassmorphism");
+    });
+  }
+
+  setupRainbowBorders() {
+    const specialElements = document.querySelectorAll(".service-item");
+    specialElements.forEach((element) => {
+      element.classList.add("rainbow-border");
+    });
+  }
+
+  setupLiquidEffects() {
+    const liquidElements = document.querySelectorAll(
+      ".about-content, .section-header"
+    );
+    liquidElements.forEach((element) => {
+      element.classList.add("liquid-effect");
+    });
+  }
+
+  setupStarlightEffects() {
+    const starlightElements = document.querySelectorAll(
+      ".main-title h1, .main-title h2"
+    );
+    starlightElements.forEach((element) => {
+      element.classList.add("starlight");
+    });
+  }
+
+  // 매트릭스 레인 효과
+  setupMatrixRain() {
+    const matrixContainer = document.createElement("div");
+    matrixContainer.className = "matrix-rain";
+    document.body.appendChild(matrixContainer);
+
+    const chars =
+      "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+
+    setInterval(() => {
+      if (Math.random() < 0.1) {
+        this.createMatrixChar(matrixContainer, chars);
+      }
+    }, 100);
+  }
+
+  createMatrixChar(container, chars) {
+    const char = document.createElement("div");
+    char.className = "matrix-char";
+    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+    char.style.left = Math.random() * window.innerWidth + "px";
+    char.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+    container.appendChild(char);
+
+    setTimeout(() => {
+      char.remove();
+    }, 5000);
+  }
+
+  // 인터랙티브 파티클 시스템
+  setupInteractiveParticles() {
+    setInterval(() => {
+      if (Math.random() < 0.2) {
+        this.createInteractiveParticle();
+      }
+    }, 300);
+  }
+
+  createInteractiveParticle() {
+    const particle = document.createElement("div");
+    particle.className = "interactive-particle";
+
+    const startX = Math.random() * window.innerWidth;
+    const startY = Math.random() * window.innerHeight;
+
+    particle.style.cssText = `
+      left: ${startX}px;
+      top: ${startY}px;
+      animation-duration: ${Math.random() * 2 + 3}s;
+    `;
+
+    document.body.appendChild(particle);
+
+    // 마우스 근처에서 반응
+    const checkMouseProximity = () => {
+      const distance = Math.sqrt(
+        Math.pow(this.mousePosition.x - startX, 2) +
+          Math.pow(this.mousePosition.y - startY, 2)
+      );
+
+      if (distance < 150) {
+        particle.style.transform = `scale(${1 + (150 - distance) / 150})`;
+        particle.style.opacity = "1";
+      } else {
+        particle.style.transform = "scale(1)";
+        particle.style.opacity = "0.7";
+      }
+    };
+
+    document.addEventListener("mousemove", checkMouseProximity);
+
+    setTimeout(() => {
+      particle.remove();
+      document.removeEventListener("mousemove", checkMouseProximity);
+    }, 5000);
+  }
+
+  // 모핑 도형들
+  setupMorphingShapes() {
+    // 배경에 모핑 도형들 추가
+    for (let i = 0; i < 3; i++) {
+      this.createMorphingShape();
+    }
+  }
+
+  createMorphingShape() {
+    const shape = document.createElement("div");
+    shape.className = "morphing-shape";
+
+    const size = Math.random() * 100 + 50;
+    const x = Math.random() * (window.innerWidth - size);
+    const y = Math.random() * (window.innerHeight - size);
+
+    shape.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      width: ${size}px;
+      height: ${size}px;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.1;
+    `;
+
+    document.body.appendChild(shape);
+
+    // 마우스 근처에서 반응
+    document.addEventListener("mousemove", () => {
+      const distance = Math.sqrt(
+        Math.pow(this.mousePosition.x - (x + size / 2), 2) +
+          Math.pow(this.mousePosition.y - (y + size / 2), 2)
+      );
+
+      if (distance < 200) {
+        shape.style.opacity = "0.3";
+        shape.style.transform = `scale(${1 + (200 - distance) / 200})`;
+      } else {
+        shape.style.opacity = "0.1";
+        shape.style.transform = "scale(1)";
+      }
+    });
+  }
+
+  // 홀로그램 효과
+  setupHologramEffects() {
+    const hologramElements = document.querySelectorAll(
+      ".about-image, .course-image"
+    );
+    hologramElements.forEach((element) => {
+      element.classList.add("hologram");
+    });
+  }
+
+  // 조명 효과
+  setupLightEffects() {
+    // 동적 조명 효과
+    this.createDynamicLighting();
+
+    // 스포트라이트 효과
+    this.setupSpotlightEffect();
+  }
+
+  createDynamicLighting() {
+    const light = document.createElement("div");
+    light.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        transparent 0%,
+        rgba(76, 175, 80, 0.1) 30%,
+        transparent 70%
+      );
+      pointer-events: none;
+      z-index: 1;
+      transition: all 0.1s ease;
+    `;
+
+    document.body.appendChild(light);
+
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      light.style.setProperty("--mouse-x", x + "%");
+      light.style.setProperty("--mouse-y", y + "%");
+    });
+  }
+
+  setupSpotlightEffect() {
+    const spotlight = document.createElement("div");
+    spotlight.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.3) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+      transition: all 0.3s ease;
+    `;
+
+    document.body.appendChild(spotlight);
+
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      spotlight.style.setProperty("--spot-x", x + "%");
+      spotlight.style.setProperty("--spot-y", y + "%");
+    });
+  }
+
+  // 3D 카드 효과 강화
+  setupEnhanced3DCards() {
+    const cards = document.querySelectorAll(".course-card, .facility-card");
+    cards.forEach((card) => {
+      card.classList.add("card-3d");
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform =
+          "perspective(1000px) rotateX(0) rotateY(0) translateZ(0)";
+      });
+    });
+  }
+
   destroy() {
     // Clean up observers
     this.observers.forEach((observer) => {
@@ -580,5 +887,14 @@ export class AnimationManager {
 
     // 떠다니는 요소들 제거
     document.querySelectorAll(".floating-element").forEach((el) => el.remove());
+
+    // 매트릭스 레인 제거
+    const matrixRain = document.querySelector(".matrix-rain");
+    if (matrixRain) {
+      matrixRain.remove();
+    }
+
+    // 모핑 도형들 제거
+    document.querySelectorAll(".morphing-shape").forEach((el) => el.remove());
   }
 }
