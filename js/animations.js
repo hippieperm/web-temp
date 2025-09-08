@@ -10,6 +10,11 @@ export class AnimationManager {
   }
 
   init() {
+    // 페이지 로드 시 스크롤을 맨 위로 강제 이동
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     this.setupScrollAnimations();
     this.setupHoverAnimations();
     this.setupMouseTracking();
