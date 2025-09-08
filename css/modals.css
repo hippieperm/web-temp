@@ -69,6 +69,50 @@
   transform: translateY(-2px);
 }
 
+.modal-btn.primary {
+  background: #4caf50;
+  margin-right: 10px;
+}
+
+.modal-btn.secondary {
+  background: #6c757d;
+}
+
+.modal-btn.secondary:hover {
+  background: #5a6268;
+}
+
+/* Service Modal Specific */
+.service-details {
+  text-align: left;
+}
+
+.service-features {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.feature-item {
+  padding: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.service-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.service-actions .modal-btn {
+  margin: 0;
+  flex: 1;
+  max-width: 120px;
+}
+
 /* Course Modal Specific */
 .course-stats {
   display: grid;
